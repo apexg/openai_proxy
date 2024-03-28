@@ -1,22 +1,24 @@
 import { NextResponse } from 'next/server';
-import { Configuration, OpenAIApi } from 'openai';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPEN_AI_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import OpenAI from 'openai';
+
+// gets API Key from environment variable OPENAI_API_KEY
+const openai = new OpenAI();
+
+
+
 
 export async function POST(req: Request) {
   const { url, params = {}, headers = {} } = await req.json();
 
   console.log("Request:", { url, params, headers });
 
-  try {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003", 
-      prompt: params.prompt,
-      max_tokens: params.max_tokens || 60
-    });
+  try {  
+
+    const response = await openai.chat.completions.create({
+    model: 'gpt-3.5-turbo',
+    messages: [{ role: 'user', content: params.prompt }],
+     });
 
     console.log("Response:", response.data);
 
