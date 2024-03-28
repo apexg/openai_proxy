@@ -13,19 +13,12 @@ export async function POST(req: Request) {
 
   console.log("Request:", { url, params, headers });
 
-  try {  
-
-    const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
-    messages: [{ role: 'user', content: params.prompt }],
-      stream: true,
-     });
-
-    console.log("Response:", response .choices[0]?.message?.content);
-
-    return NextResponse.json(response .choices[0]?.message?.content);
-  } catch (error: any) {
-    console.error("Error:", error);
-    return NextResponse.json({ message: error.message });
-  }
+  return fetch('https://api.openai.com/v1/chat/completions', {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: Bearer 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,      
+    },
+    method: req.method,
+    body: params.prompt,
+  });
 }
