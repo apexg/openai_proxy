@@ -20,9 +20,9 @@ export async function POST(req: Request) {
     messages: [{ role: 'user', content: params.prompt }],
      });
 
-    console.log("Response:", completion.choices[0]?.message?.content);
+    console.log("Response:", response .choices[0]?.message?.content);
 
-    return NextResponse.json(completion.choices[0]?.message?.content);
+    return NextResponse.json(response .choices[0]?.message?.content);
   } catch (error: any) {
     console.error("Error:", error);
     return NextResponse.json({ message: error.message });
