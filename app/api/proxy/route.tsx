@@ -10,13 +10,13 @@ const openai = new OpenAI();
 
 export async function POST(req: Request) {
   const { url, params = {}, headers = {} } = await req.json();
-
+  const apiKey = process.env.OPENAI_API_KEY;
   console.log("Request:", { url, params, headers });
 
   return fetch('https://api.openai.com/v1/chat/completions', {
     headers: {
       "Content-Type": "application/json",
-      Authorization: Bearer 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,      
+      Authorization: `Bearer ${apiKey}`,      
     },
     method: req.method,
     body: params.prompt,
