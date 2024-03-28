@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
     messages: [{ role: 'user', content: params.prompt }],
+      stream: true,
      });
 
     console.log("Response:", response .choices[0]?.message?.content);
