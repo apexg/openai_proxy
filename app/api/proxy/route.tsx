@@ -9,9 +9,9 @@ const openai = new OpenAI();
 
 
 export async function POST(req: NextRequest) {
-  const { url, params = {}, headers = {} } = await req.json();
+ 
   const apiKey = process.env.OPENAI_API_KEY;
-  console.log("Request:", { url, params, headers });
+  console.log("Request:", req);
 
   return fetch('https://api.openai.com/v1/chat/completions', {
     headers: {
