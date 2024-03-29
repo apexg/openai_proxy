@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,      
     },   
-    body: params.prompt,
+    method: POST,
+    body: params,
   });
 }
