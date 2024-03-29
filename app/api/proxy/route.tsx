@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest } from "next/server";
 
 import OpenAI from 'openai';
 
@@ -8,7 +8,7 @@ const openai = new OpenAI();
 
 
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { url, params = {}, headers = {} } = await req.json();
   const apiKey = process.env.OPENAI_API_KEY;
   console.log("Request:", { url, params, headers });
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,      
     },   
-    method: POST,
-    body: params,
+    method: req.method,
+    body: req.body,
   });
 }
