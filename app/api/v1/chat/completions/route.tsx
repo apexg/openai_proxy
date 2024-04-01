@@ -1,28 +1,33 @@
-import { NextResponse } from 'next/server';
-import { Configuration, OpenAIApi } from 'openai';
+import { NextRequest, NextResponse } from "next/server";
+import { requestOpenai } from "../../../common";
 
-const configuration = new Configuration({
-  apiKey: process.env.OPEN_AI_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
-export async function POST(req: Request) {
-  const { url, params , headers = {} } = await req.json();
-
-  console.log("Request:", { url, params, headers });
-
+async function makeRequest(req: NextRequest) {
   try {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003", 
-      prompt: params.prompt,
-      max_tokens: params.max_tokens || 60
-    });
-
-    console.log("Response:", response.data);
-
-    return NextResponse.json(response.data);
-  } catch (error: any) {
-    console.error("Error:", error);
-    return NextResponse.json({ message: error.message });
+    const api = await requestOpenai(req);
+    const res = new NextResponse(api.body);
+    res.headers.set("Content-Type", "application/json");
+    res.headers.set("Cache-Control", "no-cache");
+    return res;
+  } catch (e) {
+    console.error("[OpenAI] ", req.body, e);
+    return NextResponse.json(
+      {
+        error: true,
+        msg: JSON.stringify(e),
+      },
+      {
+        status: 500,
+      },
+    );
   }
 }
+
+export async function POST(req: NextRequest) {
+  return makeRequest(req);
+}
+
+export async function GET(req: NextRequest) {
+  return makeRequest(req);
+}
+
+export const runtime = "experimental-edge";
