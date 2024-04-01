@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 import OpenAI from 'openai';
 
 // gets API Key from environment variable OPENAI_API_KEY
-const openai = new OpenAI();
+// const openai = new OpenAI();
 
 
 
