@@ -10,6 +10,7 @@ export async function requestOpenai(req: NextRequest) {
   const openaiPath = req.headers.get("path");
   const token = req.headers.get("Authorization")
   console.log('请求体:path',req.nextUrl.pathname.slice(8))
+  console.log('请求体:token',token)
   
   let baseUrl = BASE_URL;
 
