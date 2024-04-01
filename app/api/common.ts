@@ -7,7 +7,7 @@ const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 
 export async function requestOpenai(req: NextRequest) {
   const apiKey = req.headers.get("token");
-  const openaiPath = req.headers.get("path");
+  const openaiPath = req.nextUrl.pathname.slice(8)
   const token = req.headers.get("Authorization")
   console.log('请求体:path',req.nextUrl.pathname.slice(8))
   console.log('请求体:token',token)
