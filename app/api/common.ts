@@ -8,8 +8,9 @@ const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 export async function requestOpenai(req: NextRequest) {
   const apiKey = req.headers.get("token");
   const openaiPath = req.headers.get("path");
-  console.log('请求体:path',req.nextUrl.pathname.slice(9))
-  console.log('请求体:headers',req.headers)
+  const token = req.headers.get("Authorization")
+  console.log('请求体:path',req.nextUrl.pathname.slice(8))
+  
   let baseUrl = BASE_URL;
 
   if (!baseUrl.startsWith("http")) {
@@ -24,7 +25,13 @@ export async function requestOpenai(req: NextRequest) {
   }
 
   return fetch(`${baseUrl}/${openaiPath}`, {
-    headers: req.headers,    
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${token}`,
+      ...(process.env.OPENAI_ORG_ID && {
+        "OpenAI-Organization": process.env.OPENAI_ORG_ID,
+      }),
+    },
     method: req.method,
     body: req.body,
   });
