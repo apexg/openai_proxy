@@ -8,7 +8,7 @@ const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 export async function requestOpenai(req: NextRequest) {
   const apiKey = req.headers.get("token");
   const openaiPath = req.headers.get("path");
-
+  console.log('请求体',req)
   let baseUrl = BASE_URL;
 
   if (!baseUrl.startsWith("http")) {
